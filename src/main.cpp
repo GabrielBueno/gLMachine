@@ -1,9 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include <iostream>
+
+#include "lsystem.h"
 
 int main(int argc, char **argv) {
-    printf("gl_Machine!");
+    std::cout << "gl_Machine, starting..." << std::endl;
+
+    glMachine::LSystem lsys("F");
+
+    std::cout << lsys.to_s() << std::endl;
+
+    for (int i = 0; i < 2; i++) {
+        lsys.iterate();
+        std::cout << lsys.to_s() << std::endl;
+    }
 
     return 0;
 }
