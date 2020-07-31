@@ -146,7 +146,9 @@ namespace glMachine {
     }
 
     void LRenderer::_render() { 
-        glClearColor(0.84, 0.78, 0.66, 1.0);
+        // glClearColor(0.84, 0.78, 0.66, 1.0);
+        glClearColor(0.04, 0.01, 0.02, 1.0);
+        // glClearColor(0.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(_gl_program);

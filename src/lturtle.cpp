@@ -6,9 +6,9 @@
 namespace glMachine {
     LTurtle::LTurtle(std::string const& lstring, Position initial_position) :
         _lstring(lstring),
-        _angle_diff(30.0 * M_PI / 180.0),
-        _walk_length_shrink_factor(1.2),
-        _walk_length(10.0),
+        _angle_diff(20.0 * M_PI / 180.0),
+        _walk_length_shrink_factor(1.5),
+        _walk_length(250.0),
         _angle(90.0 * M_PI / 180.0),       
         _position(initial_position)
     {}
@@ -20,6 +20,11 @@ namespace glMachine {
             const char ch = _lstring[i];
 
             switch (ch) {
+                case 'f':
+                    _position.x += _walk_length * cos(_angle);
+                    _position.y += _walk_length * sin(_angle);
+                    break;
+
                 case 'F':
                     Line line;
 
@@ -27,7 +32,7 @@ namespace glMachine {
                     line.y1 = _position.y;
 
                     _position.x += _walk_length * cos(_angle);
-                    _position.y -= _walk_length * sin(_angle);
+                    _position.y += _walk_length * sin(_angle);
 
                     line.x2 = _position.x;
                     line.y2 = _position.y;

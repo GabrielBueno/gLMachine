@@ -18,8 +18,8 @@ namespace glMachine {
 
         void render();
 
-        static const size_t SCREEN_WIDTH  = 1024;
-        static const size_t SCREEN_HEIGHT = 768; 
+        static const size_t SCREEN_WIDTH  = 1920;
+        static const size_t SCREEN_HEIGHT = 1080; 
 
     private:
         void  _link_program();

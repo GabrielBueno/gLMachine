@@ -28,7 +28,10 @@ namespace glMachine {
     std::string LSystem::get_production(char ch) {
         switch (ch) {
             case 'F':
-                return "F[+F][-F][-F+F]F";
+                return "F[+F[+F-F]][-F][[-F]+F]";
+
+            case 'f':
+                return "F";
         }
 
         return std::string(1, ch);

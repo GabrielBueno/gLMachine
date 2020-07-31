@@ -6,7 +6,7 @@
 #include "lrenderer.h"
 #include "geometry.h"
 
-#define ITERATIONS 6
+#define ITERATIONS 7
 
 int main(int argc, char **argv) {
     std::cout << "gl_Machine, starting..." << std::endl;
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < ITERATIONS; i++)
         lsys.iterate();
 
-    glMachine::LTurtle lturtle(lsys.to_s(), { glMachine::LRenderer::SCREEN_WIDTH / 2, glMachine::LRenderer::SCREEN_HEIGHT - 30 });
+    glMachine::LTurtle lturtle(lsys.to_s(), { glMachine::LRenderer::SCREEN_WIDTH / 2, 20 });
     lturtle.execute();
 
     std::vector<glMachine::Line> lines;
