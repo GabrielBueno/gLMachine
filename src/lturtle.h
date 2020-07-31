@@ -4,7 +4,7 @@
 #include <string>
 #include <stack>
 
-#include "position.h"
+#include "geometry.h"
 
 namespace glMachine {
     typedef struct _lturtle_state {
@@ -14,27 +14,26 @@ namespace glMachine {
 
     class LTurtle {
     public:
-        LTurtle(std::string const& lstring);
+        LTurtle(std::string const& lstring, Position initial_position);
         ~LTurtle();
 
         void execute();
-        Position pop_position();
-        Position peek_position();
-        bool position_stack_empty();
+        Line pop_line();
+        Line peek_line();
+        bool has_line_on_stack();
     private:
         void _push_state_stack();
         void _pop_state_stack();
-        void _push_pos_stack();
 
         std::string const&       _lstring;
-        std::stack<Position>     _pos_stack;
+        std::stack<Line>         _line_stack;
         std::stack<LTurtleState> _state_stack;
+        
+        const double _angle_diff;
+        const double _walk_length_shrink_factor;
 
-        double   _walk_length;
-        double   _angle;
-        double   _angle_diff;
-        double   _canvas_width;
-        double   _canvas_height;
+        double _walk_length;
+        double _angle;
         Position _position;
     };
 }

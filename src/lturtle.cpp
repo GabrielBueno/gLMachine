@@ -4,17 +4,14 @@
 #include <cmath>
 
 namespace glMachine {
-    LTurtle::LTurtle(std::string const& lstring) :
+    LTurtle::LTurtle(std::string const& lstring, Position initial_position) :
         _lstring(lstring),
-        _walk_length(5.0),
-        _angle(90.0 * 180.0 / M_PI),
-        _angle_diff(30.0 * 180.0 / M_PI),
-        _canvas_width(500.0),
-        _canvas_height(300.0),
-        _position({ _canvas_width / 2, _canvas_height - 30 })
-    {
-        _push_pos_stack();
-    }
+        _angle_diff(30.0 * M_PI / 180.0),
+        _walk_length_shrink_factor(1.2),
+        _walk_length(10.0),
+        _angle(90.0 * M_PI / 180.0),       
+        _position(initial_position)
+    {}
 
     LTurtle::~LTurtle() {}
 
@@ -24,19 +21,31 @@ namespace glMachine {
 
             switch (ch) {
                 case 'F':
-                    _position.x += _walk_length * sin(_angle);
-                    _position.y += _walk_length * cos(_angle);
+                    Line line;
 
-                    _push_pos_stack();
+                    line.x1 = _position.x;
+                    line.y1 = _position.y;
+
+                    _position.x += _walk_length * cos(_angle);
+                    _position.y -= _walk_length * sin(_angle);
+
+                    line.x2 = _position.x;
+                    line.y2 = _position.y;
+
+                    _line_stack.push(line);
 
                     break;
 
                 case '[':
                     _push_state_stack();
+                    _walk_length /= _walk_length_shrink_factor;
+
                     break;
 
                 case ']':
                     _pop_state_stack();
+                    _walk_length *= _walk_length_shrink_factor;
+
                     break;
 
                 case '+':
@@ -50,19 +59,19 @@ namespace glMachine {
         }
     }
 
-    Position LTurtle::pop_position() {
-        Position last_pos = _pos_stack.top();
+    Line LTurtle::pop_line() {
+        Line last_line = _line_stack.top();
 
-        _pos_stack.pop();
-        return last_pos;
+        _line_stack.pop();
+        return last_line;
     }
 
-    Position LTurtle::peek_position() {
-        return _pos_stack.top();
+    Line LTurtle::peek_line() {
+        return _line_stack.top();
     }
 
-    bool LTurtle::position_stack_empty() {
-        return _pos_stack.empty();
+    bool LTurtle::has_line_on_stack() {
+        return !_line_stack.empty();
     }
 
     void LTurtle::_push_state_stack() {
@@ -76,9 +85,5 @@ namespace glMachine {
         _angle    = prev_state.angle;
 
         _state_stack.pop();
-    }
-
-    void LTurtle::_push_pos_stack() {
-        _pos_stack.push(_position);
     }
 }
